@@ -38,3 +38,6 @@ build/
 ### sql files for H2 ###
 /src/main/resources/schema.sql
 /src/main/resources/data.sql
+
+### Dockerfile ###
+Dockerfile
