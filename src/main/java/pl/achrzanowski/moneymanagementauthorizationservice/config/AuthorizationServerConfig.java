@@ -39,6 +39,7 @@ public class AuthorizationServerConfig {
     @Value("${issuer.url}")
     String issuerUrl;
 
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 

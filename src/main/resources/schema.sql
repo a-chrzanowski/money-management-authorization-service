@@ -66,3 +66,4 @@ CREATE TABLE authorities (
 );
 
 CREATE UNIQUE INDEX ix_auth_username ON authorities (username, authority);
+
