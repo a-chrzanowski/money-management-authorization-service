@@ -5,6 +5,9 @@ on:
     types: [ closed ]
     branches: [ "development" ]
 
+env:
+  BUILD_NAME: mm-authorization-service-build
+
 jobs:
   build-jar:
     env:
@@ -37,7 +40,7 @@ jobs:
       - name: Upload JAR build
         uses: actions/upload-artifact@v3
         with:
-          name: mm-authorization-service-build
+          name: ${{ env.BUILD_NAME }}
           path: /home/runner/work/money-management-authorization-service/money-management-authorization-service/target/money-management-authorization-service-*.jar
 
   build-and-push-docker-image:
@@ -76,3 +79,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+      - name: Clean artifacts
+        uses: geekyeggo/delete-artifact@v1
+        with:
+          name: ${{ env.BUILD_NAME }}
