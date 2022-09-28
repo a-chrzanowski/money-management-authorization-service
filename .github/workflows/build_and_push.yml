@@ -63,7 +63,7 @@ jobs:
       - name: Download JAR for image
         uses: actions/download-artifact@v3
         with:
-          name: mm-authorization-service-build
+          name: ${{ env.BUILD_NAME }}
           path: target
       - name: Extract metadata (tags, labels) for Docker
         id: meta
