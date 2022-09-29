@@ -65,18 +65,14 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
-                    <mainClass>pl.achrzanowski.moneymanagementauthorizationservice.MoneyManagementAuthorizationServiceApplication</mainClass>
+                    <archive>
+                        <manifest>
+                            <mainClass>pl.achrzanowski.moneymanagementauthorizationservice.MoneyManagementAuthorizationServiceApplication</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>
