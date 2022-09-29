@@ -42,6 +42,7 @@ jobs:
         with:
           name: ${{ env.BUILD_NAME }}
           path: /home/runner/work/money-management-authorization-service/money-management-authorization-service/target/money-management-authorization-service-*.jar
+          retention-days: 1
 
   build-and-push-docker-image:
 
