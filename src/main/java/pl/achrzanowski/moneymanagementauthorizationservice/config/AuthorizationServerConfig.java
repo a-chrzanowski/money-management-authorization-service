@@ -36,10 +36,6 @@ import java.util.UUID;
 @Configuration
 public class AuthorizationServerConfig {
 
-    @Value("${issuer.url}")
-    String issuerUrl;
-
-
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -115,7 +111,9 @@ public class AuthorizationServerConfig {
 
     @Bean
     @Profile("local")
-    public ProviderSettings providerSettingsWithLocalUrl(){
+    public ProviderSettings providerSettingsWithLocalUrl(
+            @Value("${issuer.url}") String issuerUrl
+    ){
         return ProviderSettings.builder()
                 .issuer(issuerUrl)
                 .build();
