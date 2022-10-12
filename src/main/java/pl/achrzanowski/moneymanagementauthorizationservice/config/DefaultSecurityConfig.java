@@ -39,21 +39,8 @@ public class DefaultSecurityConfig {
     }
 
     @Bean
-    @Profile("prod")
     UserDetailsManager userDetailsManager(){
         return new JdbcUserDetailsManager(dataSource);
-    }
-
-    @Bean
-    @Profile({"dev","local"})
-    UserDetailsManager userDetailsManagerWithUser(
-            @Value("${dev-user.username}") String username,
-            @Value("${dev-user.password}") String password,
-            @Value("${dev-user.authority}") String authority){
-        UserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-        UserDetails userDetails = new User(username, password, List.of(new SimpleGrantedAuthority(authority)));
-        jdbcUserDetailsManager.createUser(userDetails);
-        return jdbcUserDetailsManager;
     }
 
 }

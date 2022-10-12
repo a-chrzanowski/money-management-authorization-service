@@ -17,10 +17,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
 import org.springframework.security.web.SecurityFilterChain;
@@ -30,7 +27,6 @@ import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
-import java.util.List;
 import java.util.UUID;
 
 @Configuration
@@ -40,35 +36,8 @@ public class AuthorizationServerConfig {
     private JdbcTemplate jdbcTemplate;
 
     @Bean
-    @Profile("prod")
     public RegisteredClientRepository registeredClientRepository(){
         return new JdbcRegisteredClientRepository(jdbcTemplate);
-    }
-
-    @Bean
-    @Profile({"dev","local"})
-    public RegisteredClientRepository registeredClientRepositoryWithClient(
-            @Value("#{'${registered-client.scopes}'.split(',')}") List<String> scopes,
-            @Value("${registered-client.id}") String id,
-            @Value("${registered-client.client-id}") String clientId,
-            @Value("${registered-client.client-secret}") String clientSecret,
-            @Value("${registered-client.client-name}") String clientName,
-            @Value("${registered-client.redirect-uris}") String redirectUri){
-        RegisteredClient registeredClient = RegisteredClient
-                .withId(id)
-                .clientId(clientId)
-                .clientSecret(clientSecret)
-                .clientName(clientName)
-                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                .authorizationGrantTypes(authorizationGrantTypes -> {
-                    authorizationGrantTypes.add(AuthorizationGrantType.REFRESH_TOKEN);
-                    authorizationGrantTypes.add(AuthorizationGrantType.AUTHORIZATION_CODE);})
-                .redirectUri(redirectUri)
-                .scopes(strings -> strings.addAll(scopes))
-                .build();
-        JdbcRegisteredClientRepository jdbcRegisteredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
-        jdbcRegisteredClientRepository.save(registeredClient);
-        return jdbcRegisteredClientRepository;
     }
 
     @Bean
