@@ -1,4 +1,6 @@
 spring:
+  mvc:
+    static-path-pattern: /content/**
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
