@@ -45,6 +45,9 @@ public class SecurityConfig {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Value("${spring.security.patterns.permit-all}")
+    private String[] permitAllSecurityPatterns;
+
     @Bean
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -63,7 +66,7 @@ public class SecurityConfig {
         httpSecurity
                 .authorizeHttpRequests(
                         authorize -> authorize
-                                .requestMatchers("/actuator/**", "/content/**").permitAll()
+                                .requestMatchers(this.permitAllSecurityPatterns).permitAll()
                                 .anyRequest().authenticated())
                 .csrf().disable()
                 .headers().frameOptions().disable()
